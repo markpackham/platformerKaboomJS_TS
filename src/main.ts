@@ -20,7 +20,16 @@ async function gameSetup() {
 
   k.loadSprite("level-1", "./level-1.png");
 
-  k.scene("level-1", () => {});
+  k.scene("level-1", () => {
+    k.setGravity(2100);
+    k.add([
+      // we want the rectangle to take up the entire screen size
+      k.rect(k.width(), k.height()),
+      // keep camera fixed
+      k.color(k.Color.fromHex("#f7d7db")),
+      k.fixed(),
+    ]);
+  });
 
   k.go("level-1");
 }
