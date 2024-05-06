@@ -18,7 +18,25 @@ export async function makeMap(k: KaboomCtx, name: string) {
             // we use the exit tag for the exit door
             collisionIgnore: ["platform", "exit"],
           }),
+          collider.name !== "exit" ? k.body({ isStatic: true }) : null,
+          k.pos(collider.x, collider.y),
+          // give "platform" tag to current game object if it isn't the level exit
+          collider.name !== "exit" ? "platform" : "exit",
         ]);
+      }
+      continue;
+    }
+
+    if (layer.name === "spawnpoints") {
+      for (const spawnPoint of layer.objects) {
+        // examples of a names are "player" & "bird", check if the key already exists
+        if (spawnPoints[spawnPoint.name]) {
+          spawnPoints[spawnPoint.name].push({
+            x: spawnPoint.x,
+            y: spawnPoint.y,
+          });
+          continue;
+        }
       }
     }
   }
