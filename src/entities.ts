@@ -1,4 +1,4 @@
-import { KaboomCtx } from "kaboom";
+import { GameObj, KaboomCtx } from "kaboom";
 import { scale } from "./constants";
 
 export function makePlayer(k: KaboomCtx, posX: number, posY: number) {
@@ -23,5 +23,25 @@ export function makePlayer(k: KaboomCtx, posX: number, posY: number) {
   ]);
 
   // enemy collisions
-  player.onCollide("enemy", async () => {});
+  // GameObj comes from kaboom
+  player.onCollide("enemy", async (enemy: GameObj) => {
+    // Enemy destroyed
+    if (player.isInhaling && enemy.isInhalable) {
+      player.isInhaling = false;
+      k.destroy(enemy);
+      player.isFull = true;
+      return;
+    }
+
+    // Player destroyed
+    if (player.hp() === 0) {
+      k.destroy(player);
+      // k.go(globalGameState.currentScene);
+      k.go("level-2");
+      return;
+    }
+
+    // hurt() decreases 1 HP by default
+    player.hurt();
+  });
 }
