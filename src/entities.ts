@@ -63,7 +63,7 @@ export function makePlayer(k: KaboomCtx, posX: number, posY: number) {
     k.go("level-2");
   });
 
-  // inhale mechanic
+  // inhale / attack mechanic
   const inhaleEffect = k.add([
     k.sprite("assets", { anim: "kirbInhaleEffect" }),
     k.pos(),
@@ -71,4 +71,35 @@ export function makePlayer(k: KaboomCtx, posX: number, posY: number) {
     k.opacity(0),
     "inhaleEffect",
   ]);
+
+  // hitbox area
+  // let player know when they can swallow enemy
+  const inhaleZone = player.add([
+    k.area({ shape: new k.Rect(k.vec2(0), 20, 4) }),
+    // player position impacts inhale zone
+    k.pos(),
+    "inhaleZone",
+  ]);
+
+  inhaleZone.onUpdate(() => {
+    if (player.direction === "left") {
+      inhaleZone.pos = k.vec2(-14, 8);
+      inhaleEffect.pos = k.vec2(player.pos.x - 60, player.pos.y + 0);
+      inhaleEffect.flipX = true;
+      return;
+    }
+    inhaleZone.pos = k.vec2(14, 8);
+    inhaleEffect.pos = k.vec2(player.pos.x + 60, player.pos.y + 0);
+    inhaleEffect.flipX = false;
+  });
+
+  // respawn player if they fall
+  // reset scene
+  player.onUpdate(() => {
+    if (player.pos.y > 2000) {
+      k.go("level-1");
+    }
+  });
+
+  return player;
 }
