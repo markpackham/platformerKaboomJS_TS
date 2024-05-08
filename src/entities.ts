@@ -58,4 +58,17 @@ export function makePlayer(k: KaboomCtx, posX: number, posY: number) {
       k.easings.linear
     );
   });
+
+  player.onCollide("exit", () => {
+    k.go("level-2");
+  });
+
+  // inhale mechanic
+  const inhaleEffect = k.add([
+    k.sprite("assets", { anim: "kirbInhaleEffect" }),
+    k.pos(),
+    k.scale(scale),
+    k.opacity(0),
+    "inhaleEffect",
+  ]);
 }
