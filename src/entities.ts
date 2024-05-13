@@ -162,4 +162,14 @@ export function setControls(k: KaboomCtx, player: GameObj) {
       default:
     }
   });
+
+  // Player double jumps 10 times then falls
+  k.onKeyPress((key) => {
+    switch (key) {
+      case "x":
+        player.doubleJump();
+        break;
+      default:
+    }
+  });
 }
