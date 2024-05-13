@@ -315,6 +315,7 @@ export function makeGuyEnemy(k: KaboomCtx, posX: number, posY: number) {
 
 // Unlike the other enemies birds are intended to spawn continuously
 // they don't use onState AI, the bird also has a "speed"
+// they play a similar role to bullet projectiles in the Mario games
 export function makeBirdEnemy(
   k: KaboomCtx,
   posX: number,
@@ -329,8 +330,10 @@ export function makeBirdEnemy(
       shape: new k.Rect(k.vec2(4, 6), 8, 10),
       collisionIgnore: ["enemy"],
     }),
-    k.body(),
+    // Make sure birds not effected by gravity
+    k.body({ isStatic: true }),
     k.move(k.LEFT, speed),
+    // Destory birds that go past a certain distance
     k.offscreen({ destroy: true, distance: 400 }),
     "enemy",
   ]);

@@ -73,17 +73,18 @@ async function gameSetup() {
       makeGuyEnemy(k, guy.x, guy.y);
     }
 
-    // for (const bird of level2SpawnPoints.bird) {
-    //   const possibleSpeeds = [100, 200, 300];
-    //   k.loop(10, () => {
-    //     makeBirdEnemy(
-    //       k,
-    //       bird.x,
-    //       bird.y,
-    //       possibleSpeeds[Math.floor(Math.random() * possibleSpeeds.length)]
-    //     );
-    //   });
-    // }
+    for (const bird of level1SpawnPoints.bird) {
+      // Randomly picked speeds
+      const possibleSpeeds = [100, 200, 300];
+      k.loop(10, () => {
+        makeBirdEnemy(
+          k,
+          bird.x,
+          bird.y,
+          possibleSpeeds[Math.floor(Math.random() * possibleSpeeds.length)]
+        );
+      });
+    }
   });
 
   k.go("level-1");
