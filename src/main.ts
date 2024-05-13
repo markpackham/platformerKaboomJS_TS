@@ -55,7 +55,7 @@ async function gameSetup() {
     k.onUpdate(() => {
       if (kirb.pos.x < level1Layout.pos.x + 432) {
         // Allow camera to follow the player up to a point but not exceed it
-        k.camPos(kirb.pos.x + 500, 800);
+        k.camPos(kirb.pos.x + 500, 870);
       }
     });
   });
