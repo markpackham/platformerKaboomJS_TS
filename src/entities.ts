@@ -170,7 +170,7 @@ export function setControls(k: KaboomCtx, player: GameObj) {
 
   k.onKeyRelease((key) => {
     if (key === "z") {
-      if (player.isFull) {
+      if (!player.isFull) {
         // Player spitting out an enemy same animation as inhaling
         player.play("kirbInhaling");
         const shootingStar = k.add([
@@ -185,10 +185,13 @@ export function setControls(k: KaboomCtx, player: GameObj) {
           ),
           k.scale(scale),
           player.direction === "left"
-            ? k.move(k.LEFT, 800)
+            ? // Constants of LEFT & RIGHT provided by kaboom
+              k.move(k.LEFT, 800)
             : k.move(k.RIGHT, 800),
           "shootingStar",
         ]);
+        // Star gets destroyed if it hits a platform
+        shootingStar.onCollide("platform", () => k.destroy(shootingStar));
       }
     }
   });
