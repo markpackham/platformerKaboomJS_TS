@@ -205,6 +205,33 @@ export function setControls(k: KaboomCtx, player: GameObj) {
   });
 }
 
+// Make enemies inhalable
+export function makeInhalable(k: KaboomCtx, enemy: GameObj) {
+  enemy.onCollide("inhaleZone", () => {
+    enemy.isInhalable = true;
+  });
+
+  enemy.onCollideEnd("inhaleZone", () => {
+    enemy.isInhalable = false;
+  });
+
+  enemy.onCollide("shootingStar", (shootingStar: GameObj) => {
+    k.destroy(enemy);
+    k.destroy(shootingStar);
+  });
+
+  const playerRef = k.get("player")[0];
+  enemy.onUpdate(() => {
+    if (playerRef.isInhaling && enemy.isInhalable) {
+      if (playerRef.direction === "right") {
+        enemy.move(-800, 0);
+        return;
+      }
+      enemy.move(800, 0);
+    }
+  });
+}
+
 // Enemies
 export function makeFlameEnemy(k: KaboomCtx, posX: number, posY: number) {
   const flame = k.add([
@@ -222,6 +249,7 @@ export function makeFlameEnemy(k: KaboomCtx, posX: number, posY: number) {
 
   makeInhalable(k, flame);
 
+  // OnState components
   flame.onStateEnter("idle", async () => {
     await k.wait(1);
     flame.enterState("jump");
