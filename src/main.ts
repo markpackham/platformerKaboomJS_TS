@@ -1,4 +1,4 @@
-import { makePlayer } from "./entities";
+import { makePlayer, setControls } from "./entities";
 import { k } from "./kaboomCtx";
 import { makeMap } from "./utils";
 
@@ -45,6 +45,7 @@ async function gameSetup() {
       level1SpawnPoints.player[0].y
     );
 
+    setControls(k, kirb);
     // Add kirb player to the scene
     k.add(kirb);
     // Camera
