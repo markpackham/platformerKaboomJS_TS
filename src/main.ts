@@ -48,9 +48,12 @@ async function gameSetup() {
     // Add kirb player to the scene
     k.add(kirb);
     // Camera
-    k.camScale(k.vec2(0.7));
+    // Same thing as below
+    // k.camScale(k.vec2(0.7));
+    k.camScale(0.7, 0.7);
     k.onUpdate(() => {
       if (kirb.pos.x < level1Layout.pos.x + 432) {
+        // Allow camera to follow the player up to a point but not exceed it
         k.camPos(kirb.pos.x + 500, 800);
       }
     });
