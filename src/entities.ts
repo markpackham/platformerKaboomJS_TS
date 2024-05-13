@@ -165,11 +165,22 @@ export function setControls(k: KaboomCtx, player: GameObj) {
 
   // Player double jumps 10 times then falls
   k.onKeyPress((key) => {
-    switch (key) {
-      case "x":
-        player.doubleJump();
-        break;
-      default:
+    if (key === "x") player.doubleJump();
+  });
+
+  k.onKeyRelease((key) => {
+    if (key === "z") {
+      if (player.isFull) {
+        // Player spitting out an enemy same animation as inhaling
+        player.play("kirbInhaling");
+        const shootingStar = k.add([
+          k.sprite("assets", {
+            anim: "shootingStar",
+            flipX: player.direction === "right",
+          }),
+          k.area({ shape: new k.Rect(k.vec2(5, 4), 6, 6) }),
+        ]);
+      }
     }
   });
 }
