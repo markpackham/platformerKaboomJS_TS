@@ -313,6 +313,8 @@ export function makeGuyEnemy(k: KaboomCtx, posX: number, posY: number) {
   return guy;
 }
 
+// Unlike the other enemies birds are intended to spawn continuously
+// they don't use onState AI, the bird also has a "speed"
 export function makeBirdEnemy(
   k: KaboomCtx,
   posX: number,
@@ -327,7 +329,7 @@ export function makeBirdEnemy(
       shape: new k.Rect(k.vec2(4, 6), 8, 10),
       collisionIgnore: ["enemy"],
     }),
-    k.body({ isStatic: true }),
+    k.body(),
     k.move(k.LEFT, speed),
     k.offscreen({ destroy: true, distance: 400 }),
     "enemy",
